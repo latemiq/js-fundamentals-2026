@@ -12,6 +12,7 @@ else {
     ];
 }
 
+const setsInput = document.getElementById("sets");
 const input = document.getElementById("input");
 const addBtn = document.getElementById("add");
 const list = document.getElementById("list");
@@ -61,10 +62,16 @@ function addExercise() {
         newExercise.reps = reps;
     }
     exercises = [...exercises, newExercise];
+    const newSets = { id: Date.now(), name: name };
+    const sets = parseInt(setsInput.value);
+    if (!isNaN(reps) && reps > 0) {
+        newSets.sets = sets;
+    }
 
     input.value = "";
     repsInput.value = "";
     render();
+
 }
 
 
