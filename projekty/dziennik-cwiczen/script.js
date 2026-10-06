@@ -13,6 +13,7 @@ else {
 }
 
 const setsInput = document.getElementById("sets");
+const weightInput = document.getElementById("weight");
 const input = document.getElementById("input");
 const addBtn = document.getElementById("add");
 const list = document.getElementById("list");
@@ -24,21 +25,7 @@ function render() {
 
     exercises.forEach((exercise) => {
         const li = document.createElement("li");
-        li.textContent = exercise.name;
-
-        const inputReps = document.createElement("input");
-        inputReps.type = "number";
-        inputReps.value = exercise.reps || "";
-        inputReps.addEventListener("change", (e) => {
-            const newReps = parseInt(e.target.value);
-            if (!isNaN(newReps) && newReps > 0) {
-                exercises = exercises.map((ex) =>
-                    ex.id === exercise.id ? { ...ex, reps: newReps } : ex
-                );
-                render();
-            }
-        });
-        li.appendChild(inputReps);
+        li.textContent = `${exercise.name} - ciężar: ${exercise.weight || "-"}, serie: ${exercise.sets || "-"}, powt: ${exercise.reps}`;
 
         const del = document.createElement("button");
         del.textContent = "Delete";
@@ -57,19 +44,28 @@ function addExercise() {
     const name = input.value.trim();
     if (name === "") return;
     const newExercise = { id: Date.now(), name: name };
+
     const reps = parseInt(repsInput.value);
     if (!isNaN(reps) && reps > 0) {
         newExercise.reps = reps;
     }
-    exercises = [...exercises, newExercise];
-    const newSets = { id: Date.now(), name: name };
+
     const sets = parseInt(setsInput.value);
-    if (!isNaN(reps) && reps > 0) {
-        newSets.sets = sets;
+    if (!isNaN(sets) && sets > 0) {
+        newExercise.sets = sets;
     }
+    const weight = parseInt(weightInput.value);
+    if (!isNaN(weight) && weight > 0) {
+        newExercise.weight = weight;
+    }
+
+
+    exercises = [...exercises, newExercise];
 
     input.value = "";
     repsInput.value = "";
+    setsInput.value = "";
+    weightInput.value = "";
     render();
 
 }
